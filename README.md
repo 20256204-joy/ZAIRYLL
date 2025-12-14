@@ -1,2 +1,897 @@
-"# ZAIRYLL" 
-"# ZAIRYLL" 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operation: Last Hangout 🎉 | Let's Create Memories!</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Chewy&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Confetti animation */
+.confetti {
+  position: fixed;
+  width: 15px;
+  height: 15px;
+  background-color: #f0f;
+  top: -10px;
+  opacity: 0;
+  z-index: 9999;
+}
+
+.page {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+
+.page.active {
+  display: flex;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 30px;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  border: 8px solid #ff9e6d;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, #ff6b81, #ff9e6d, #6a5af9, #4cd964);
+}
+
+h1 {
+  font-weight: 800;
+  font-family: 'Chewy', cursive;
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 3rem;
+  text-shadow: 3px 3px 0 rgba(255, 107, 129, 0.2);
+}
+
+h1 span.emoji {
+  display: inline-block;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+p {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.highlight {
+  background: linear-gradient(120deg, #ff9e6d 0%, #ff9e6d 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 0.4em;
+  background-position: 0 88%;
+  font-weight: 600;
+  color: #333;
+  padding: 0 5px;
+}
+
+.nav-btns {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-custom {
+  background: linear-gradient(45deg, #ff6b81, #ff9e6d);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(255, 107, 129, 0.3);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-custom:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(255, 107, 129, 0.4);
+  color: white;
+}
+
+.btn-custom:active {
+  transform: translateY(0);
+}
+
+.btn-custom::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #ff9e6d, #ff6b81);
+  border-radius: 50px;
+  z-index: -2;
+}
+
+.btn-custom::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(45deg, #6a5af9, #4cd964);
+  transition: all 0.3s;
+  border-radius: 50px;
+  z-index: -1;
+}
+
+.btn-custom:hover::before {
+  width: 100%;
+}
+
+/* Carousel styling */
+.carousel-item img {
+  height: 350px;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 5px solid white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s;
+}
+
+.carousel-item.active img {
+  transform: scale(1.03);
+}
+
+.carousel-indicators button {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  background-color: #ff6b81 !important;
+}
+
+.carousel-control-prev, .carousel-control-next {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 107, 129, 0.8);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Progress indicator */
+.progress-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6b81, #ff9e6d, #6a5af9);
+  border-radius: 10px;
+  width: 12.5%;
+  transition: width 0.5s ease;
+}
+
+/* Floating elements */
+.floating {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.2;
+  z-index: -1;
+  animation: float 15s infinite linear;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(180deg); }
+  100% { transform: translateY(0) rotate(360deg); }
+}
+
+/* Member list styling */
+.member-list {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s;
+}
+
+.member:hover {
+  transform: translateY(-10px);
+}
+
+.member-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ff6b81, #ff9e6d, #6a5af9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 15px;
+  box-shadow: 0 10px 20px rgba(255, 107, 129, 0.3);
+  overflow: hidden;
+  border: 4px solid white;
+}
+
+.member-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member-picture .placeholder {
+  font-size: 2.5rem;
+}
+
+.member-name {
+  font-weight: 700;
+  color: #333;
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+}
+
+.member-role {
+  font-weight: 500;
+  color: #666;
+  font-size: 1rem;
+  max-width: 150px;
+}
+
+/* Final request heart animation */
+.heart {
+  color: #ff6b81;
+  font-size: 2rem;
+  display: inline-block;
+  animation: heartbeat 1.5s infinite;
+  margin: 0 10px;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  5% { transform: scale(1.3); }
+  10% { transform: scale(1.1); }
+  15% { transform: scale(1.3); }
+  50% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+/* Yes or Yes buttons */
+.yes-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.yes-btn {
+  background: linear-gradient(45deg, #4cd964, #6a5af9);
+  color: white;
+  border: none;
+  padding: 20px 60px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 15px 30px rgba(76, 217, 100, 0.4);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.yes-btn:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 20px 40px rgba(76, 217, 100, 0.6);
+}
+
+.yes-btn::after {
+  content: '🎉';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.8rem;
+}
+
+/* Photo upload instruction */
+.upload-instruction {
+  background: linear-gradient(45deg, #ff9e6d, #ff6b81);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  display: inline-block;
+  margin-top: 20px;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(255, 107, 129, 0.3);
+}
+
+/* Music Player Controls */
+.music-controls {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.music-btn {
+  background: linear-gradient(45deg, #ff6b81, #ff9e6d);
+  color: white;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(255, 107, 129, 0.4);
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.music-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(255, 107, 129, 0.6);
+}
+
+.music-btn.playing {
+  background: linear-gradient(45deg, #4cd964, #6a5af9);
+}
+
+/* Toast notification */
+.music-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 107, 129, 0.9);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 50px;
+  z-index: 9999;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  animation: slideIn 0.5s ease;
+  display: none;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  h1 { font-size: 2.2rem; }
+  .card-box { padding: 25px; }
+  .btn-custom { padding: 12px 25px; }
+  .carousel-item img { height: 250px; }
+  .progress-container { width: 200px; }
+  .member-picture { width: 100px; height: 100px; }
+  .yes-btn { padding: 15px 40px; font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Background Music (Hidden iframe) -->
+<iframe id="backgroundMusic" width="0" height="0" src="https://www.youtube.com/embed/W16EsK4JCKM?enablejsapi=1&loop=1&playlist=W16EsK4JCKM" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:none;"></iframe>
+
+<!-- Music Controls -->
+<div class="music-controls">
+  <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🎵</button>
+</div>
+
+<!-- Music Toast -->
+<div id="musicToast" class="music-toast">
+  🎵 Background music enabled!
+</div>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Confetti -->
+<div id="confettiContainer"></div>
+
+<!-- Floating Elements -->
+<div class="floating" style="top:10%; left:5%;">🎉</div>
+<div class="floating" style="top:15%; right:8%;">😎</div>
+<div class="floating" style="bottom:20%; left:7%;">👯‍♀️</div>
+<div class="floating" style="bottom:15%; right:10%;">📸</div>
+<div class="floating" style="top:50%; left:3%;">✨</div>
+<div class="floating" style="top:60%; right:4%;">🌟</div>
+
+<!-- PAGE 1 -->
+<section class="page active" id="page1">
+  <div class="card-box">
+    <h1><span class="emoji">🎯</span> Operation: Final Hangout</h1>
+    <p class="lead">This is not just a request... it's a <span class="highlight">mission for memories</span>!</p>
+    <p><strong>Primary Objective:</strong> Create unforgettable moments before we part ways 🥹</p>
+    <p><strong>Secondary Objective:</strong> Have the most fun possible while being safe and responsible! ✅</p>
+    
+    <div class="mt-4">
+      <button class="btn-custom" onclick="startMusic()" style="background: linear-gradient(45deg, #6a5af9, #4cd964); margin-right: 10px;">
+        🎵 Play Background Music
+      </button>
+    </div>
+    
+    <div class="nav-btns">
+      <span></span>
+      <button class="btn-custom" onclick="nextPage()">Let's Begin! 🚀</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page" id="page2">
+  <div class="card-box">
+    <h1><span class="emoji">👥</span> The Dream Team</h1>
+    <p>Meet the fabulous trio ready for adventure:</p>
+    
+    <div class="member-list">
+      <div class="member">
+        <div class="member-picture">
+          <img src="picture/Messenger_creation_2626F95E-2ED1-4EC2-B0B0-7175873A57C0.jpeg" alt="Joy">
+        </div>
+        <div class="member-name">Joy</div>
+        <div class="member-role">The Smile Bringer</div>
+      </div>
+      <div class="member">
+        <div class="member-picture">
+          <img src="picture/FB_IMG_1765712322633.jpg" alt="Desiree">
+        </div>
+        <div class="member-name">Desiree</div>
+        <div class="member-role">The Heart & Soul</div>
+      </div>
+      <div class="member">
+        <div class="member-picture">
+          <img src="picture/FB_IMG_1765712337717.jpg" alt="Zairyll">
+        </div>
+        <div class="member-name">Zairyll</div>
+        <div class="member-role">The Tea Spiller ☕</div>
+      </div>
+    </div>
+    
+    <p class="mt-4"><strong>Team Synergy Level:</strong> Maximum Vibes ⚡</p>
+
+    <div class="nav-btns">
+      <button class="btn-custom" onclick="prevPage()">⬅ Previous</button>
+      <button class="btn-custom" onclick="nextPage()">Next ➡</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 -->
+<section class="page" id="page3">
+  <div class="card-box">
+    <h1><span class="emoji">📍</span> Destination: Town</h1>
+    <p><strong>Mission Zone:</strong> The Heart of the City 🏙️</p>
+    <p>We'll stroll through vibrant streets, discover hidden gems, and soak in the energy!</p>
+    
+    <div class="alert alert-info mt-4" style="border-radius: 20px;">
+      <h5>📋 Activity Plan:</h5>
+      <ul class="text-start" style="font-size: 1.1rem;">
+        <li><strong>Urban Exploration</strong> - Finding the coolest spots</li>
+        <li><strong>Culinary Adventure</strong> - Trying new foods (budget-friendly!)</li>
+        <li><strong>Photo Safari</strong> - Capturing every moment</li>
+        <li><strong>Window Shopping</strong> - Pretending we're millionaires 💸</li>
+      </ul>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-custom" onclick="prevPage()">⬅ Previous</button>
+      <button class="btn-custom" onclick="nextPage()">Next ➡</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4 -->
+<section class="page" id="page4">
+  <div class="card-box">
+    <h1><span class="emoji">🎉</span> The Vibe Agenda</h1>
+    <p>This isn't just "hanging out" - it's a <span class="highlight">carefully curated experience</span>!</p>
+    
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="p-3">
+          <h5>✅ What's INCLUDED:</h5>
+          <ul class="text-start">
+            <li>Non-stop laughter 😂</li>
+            <li>Good conversation 🗣️</li>
+            <li>Shared stories 📖</li>
+            <li>Photo memories 📸</li>
+            <li>Bonding time 💞</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3">
+          <h5>❌ What's EXCLUDED:</h5>
+          <ul class="text-start">
+            <li>Stress 🚫</li>
+            <li>Drama 🚫</li>
+            <li>Bad vibes 🚫</li>
+            <li>Worry 🚫</li>
+            <li>Regrets 🚫</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-custom" onclick="prevPage()">⬅ Previous</button>
+      <button class="btn-custom" onclick="nextPage()">Next ➡</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 -->
+<section class="page" id="page5">
+  <div class="card-box">
+    <h1><span class="emoji">❓</span> The Urgency Factor</h1>
+    <p>This is our <span class="highlight">LAST CHANCE</span> for a complete group hangout.</p>
+    <p>Desiree is embarking on a new journey to <strong>Isabela</strong> 🌾</p>
+    
+    <div class="alert alert-warning mt-4" style="border-radius: 20px; border-left: 10px solid #ff6b81;">
+      <h5>⏳ Time-Sensitive Opportunity:</h5>
+      <p>After this, we won't all be in the same place again for a long time.</p>
+      <p>Memories fade, but <strong>photos and shared experiences last forever</strong>.</p>
+    </div>
+    
+    <p class="mt-3"><span class="heart">💔</span> Regret Prevention Formula: <strong>Fun Now = No Regrets Later</strong> <span class="heart">❤️</span></p>
+
+    <div class="nav-btns">
+      <button class="btn-custom" onclick="prevPage()">⬅ Previous</button>
+      <button class="btn-custom" onclick="nextPage()">Next ➡</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 6 -->
+<section class="page" id="page6">
+  <div class="card-box">
+    <h1><span class="emoji">🚌</span> Transportation Strategy</h1>
+    <p>We've optimized for safety, affordability, and fun!</p>
+    
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <div class="p-3">
+          <h3>💰</h3>
+          <h5>Cost-Effective</h5>
+          <p>E-BUS fares are budget-friendly</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3">
+          <h3>🌿</h3>
+          <h5>Eco-Friendly</h5>
+          <p>Reducing our carbon footprint</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-3">
+          <h3>😄</h3>
+          <h5>More Fun</h5>
+          <p>Bus rides = More bonding time!</p>
+        </div>
+      </div>
+    </div>
+    
+    <p class="mt-3"><strong>Safety Protocol:</strong> We'll share live location updates and check in regularly 📱</p>
+
+    <div class="nav-btns">
+      <button class="btn-custom" onclick="prevPage()">⬅ Previous</button>
+      <button class="btn-custom" onclick="nextPage()">Next ➡</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 7 (PICTURES) -->
+<section class="page" id="page7">
+  <div class="card-box">
+    <h1><span class="emoji">📸</span> Evidence of Past Success</h1>
+    <p>Proof that we know how to have safe, memorable fun!</p>
+
+    <div id="picCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#picCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#picCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#picCarousel" data-bs-slide-to="2"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="d-block w-100" alt="Friends having fun">
+          <div class="carousel-caption d-none d-md-block">
+            <p>Memory #1: Joyful moments together</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="d-block w-100" alt="Friends exploring">
+          <div class="carousel-caption d-none d-md-block">
+            <p>Memory #2: Adventures in the city</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="d-block w-100" alt="Friends smiling">
+          <div class="carousel-caption d-none d-md-block">
+            <p>Memory #3: Unforgettable smiles</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#picCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#picCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+
+    <p class="mt-3"><em>More memories waiting to be created! ✨</em></p>
+
+    <div class="nav-btns">
+      <button class="btn-custom" onclick="prevPage()">⬅ Previous</button>
+      <button class="btn-custom" onclick="nextPage()">Next ➡</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 8 -->
+<section class="page" id="page8">
+  <div class="card-box">
+    <h1><span class="emoji">🙏</span> Dear JC (Zairyll's Mom)</h1>
+    
+    <div class="alert alert-success" style="border-radius: 20px; font-size: 1.2rem;">
+      <h4>Our Triple-Promise Guarantee to You:</h4>
+      <div class="mt-3">
+        <p>1. <strong>Safety First</strong> - We'll protect Zairyll like she's our own sister 🛡️</p>
+        <p>2. <strong>Return on Time</strong> - We'll have her back home safe and sound ⏰</p>
+        <p>3. <strong>Document Everything</strong> - You'll get all the pictures and updates! 📸</p>
+      </div>
+    </div>
+    
+    <p class="mt-4">We know how much you care for Zairyll, and we want to assure you that we'll take <span class="highlight">extra good care of your daughter</span>.</p>
+    
+    <p>This hangout means so much to us because it's our <strong>last chance</strong> to create beautiful memories together before Desiree moves to Isabela.</p>
+    
+    <div class="mt-5">
+      <h3>So JC... what do you say? 🤗</h3>
+      <p>Can Zairyll please join us for this special day?</p>
+      <p class="text-muted">(We promise she'll be in the best company!)</p>
+    </div>
+
+    <!-- Yes or Yes Buttons -->
+    <div class="yes-buttons">
+      <button class="yes-btn" onclick="showCelebration()">YES! 😊</button>
+      <button class="yes-btn" onclick="showCelebration()">OO! 🎉</button>
+    </div>
+    
+    <p class="mt-4 text-muted">Thank you for considering our request! We truly appreciate you. 💖</p>
+
+    <div class="nav-btns">
+      <button class="btn-custom" onclick="prevPage()">⬅ Review</button>
+      <button class="btn-custom" onclick="showCelebration()" style="background: linear-gradient(45deg, #4cd964, #6a5af9);">Please Choose an Option Above! 🙏</button>
+    </div>
+  </div>
+</section>
+
+<!-- Celebration Modal -->
+<div class="modal fade" id="celebrationModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius: 25px; border: 8px solid #ff9e6d; overflow: hidden;">
+      <div class="modal-body text-center p-5">
+        <h1 class="text-success">🎉 REQUEST APPROVED! 🎉</h1>
+        <div class="mt-4">
+          <div class="member-picture mx-auto mb-4" style="width: 150px; height: 150px;">
+            <img src="picture/FB_IMG_1765712337717.jpg" alt="Zairyll">
+          </div>
+          <h4>Special shoutout to <span class="highlight">Zairyll</span>, our official Tea Spiller! ☕</h4>
+        </div>
+        <p class="lead mt-3">You've made the right decision!</p>
+        <p>We promise this will be an unforgettable, safe, and amazing experience!</p>
+        <div class="mt-4">
+          <button class="btn-custom" style="background: linear-gradient(45deg, #4cd964, #6a5af9); padding: 15px 50px; font-size: 1.3rem;" data-bs-dismiss="modal">Let the Adventure Begin! 🚀</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const pages = document.querySelectorAll('.page');
+const progressBar = document.getElementById('progressBar');
+const musicToggle = document.getElementById('musicToggle');
+const musicToast = document.getElementById('musicToast');
+let index = 0;
+let musicStarted = false;
+let isMusicPlaying = false;
+
+function showPage(i) {
+  pages.forEach(p => p.classList.remove('active'));
+  pages[i].classList.add('active');
+  index = i;
+  
+  // Update progress bar
+  const progressPercentage = ((i + 1) / pages.length) * 100;
+  progressBar.style.width = `${progressPercentage}%`;
+  
+  // Add confetti on certain pages
+  if (i === 0 || i === 7) {
+    createConfetti();
+  }
+}
+
+function nextPage() {
+  if (index < pages.length - 1) {
+    index++;
+    showPage(index);
+  }
+}
+
+function prevPage() {
+  if (index > 0) {
+    index--;
+    showPage(index);
+  }
+}
+
+// Music functions
+function startMusic() {
+  if (!musicStarted) {
+    // Add autoplay parameter to the iframe
+    const iframe = document.getElementById('backgroundMusic');
+    iframe.src = "https://www.youtube.com/embed/W16EsK4JCKM?autoplay=1&loop=1&playlist=W16EsK4JCKM&enablejsapi=1";
+    
+    musicStarted = true;
+    isMusicPlaying = true;
+    musicToggle.classList.add('playing');
+    
+    // Show toast notification
+    showToast('🎵 Background music enabled!');
+  }
+}
+
+function toggleMusic() {
+  if (!musicStarted) {
+    startMusic();
+    return;
+  }
+  
+  isMusicPlaying = !isMusicPlaying;
+  
+  if (isMusicPlaying) {
+    musicToggle.classList.add('playing');
+    musicToggle.innerHTML = '🎵';
+    showToast('🎵 Music resumed!');
+    // Resume music by reloading iframe
+    const iframe = document.getElementById('backgroundMusic');
+    iframe.src = "https://www.youtube.com/embed/W16EsK4JCKM?autoplay=1&loop=1&playlist=W16EsK4JCKM&enablejsapi=1";
+  } else {
+    musicToggle.classList.remove('playing');
+    musicToggle.innerHTML = '🔇';
+    showToast('🔇 Music paused');
+    // Pause music by changing src
+    const iframe = document.getElementById('backgroundMusic');
+    iframe.src = "about:blank";
+  }
+}
+
+function showToast(message) {
+  musicToast.innerHTML = message;
+  musicToast.style.display = 'block';
+  
+  setTimeout(() => {
+    musicToast.style.animation = 'slideOut 0.5s ease';
+    setTimeout(() => {
+      musicToast.style.display = 'none';
+      musicToast.style.animation = 'slideIn 0.5s ease';
+    }, 500);
+  }, 3000);
+}
+
+function createConfetti() {
+  const container = document.getElementById('confettiContainer');
+  container.innerHTML = '';
+  
+  for (let i = 0; i < 50; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 65%)`;
+    confetti.style.opacity = Math.random() * 0.7 + 0.3;
+    confetti.style.width = Math.random() * 15 + 5 + 'px';
+    confetti.style.height = confetti.style.width;
+    
+    container.appendChild(confetti);
+    
+    // Animation
+    const animation = confetti.animate([
+      { top: '-10px', opacity: 0, transform: 'rotate(0deg)' },
+      { opacity: 1 },
+      { top: '100vh', opacity: 0, transform: 'rotate(720deg)' }
+    ], {
+      duration: Math.random() * 3000 + 2000,
+      delay: Math.random() * 500
+    });
+    
+    animation.onfinish = () => confetti.remove();
+  }
+}
+
+function showCelebration() {
+  createConfetti();
+  const modal = new bootstrap.Modal(document.getElementById('celebrationModal'));
+  modal.show();
+}
+
+// Initialize first page
+showPage(0);
+</script>
+</body>
+</html>
